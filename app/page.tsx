@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 interface Attendee {
   name: string;
@@ -18,39 +19,50 @@ interface ScoredAttendee extends Attendee {
   edited_message?: string;
 }
 
-
 const MOCK_RESULTS: ScoredAttendee[] = [
   {
     name: "Sarah Chen",
     title: "Director of Engineering",
     company: "Syska Hennessy Group",
-    company_summary: "Syska Hennessy Group is a global MEP engineering firm with 650+ professionals across 21 offices specializing in mechanical, electrical, and plumbing design. They serve complex projects from office buildings to hyperscale data centers across commercial, healthcare, and mission-critical sectors.",
+    company_summary:
+      "Syska Hennessy Group is a global MEP engineering firm with 650+ professionals across 21 offices specializing in mechanical, electrical, and plumbing design. They serve complex projects from office buildings to hyperscale data centers across commercial, healthcare, and mission-critical sectors.",
     icp_score: 9,
-    score_reason: "Large multi-disciplinary MEP firm producing high volumes of complex drawings across numerous projects that demands robust drawing coordination.",
-    timing_signals: "Named ENR West's 2025 Design Firm of the Year and recently opened a Singapore office, signaling accelerated project velocity and drawing complexity.",
-    message_draft: "Hi Sarah — saw Syska was just named ENR West's 2025 Design Firm of the Year, congrats on that recognition. I'm with Structured AI, we do AI drawing QA/QC for MEP firms — we've caught over 10,000 design errors across our clients. Would love to grab 15 mins at the conference to show you what we've built.",
+    score_reason:
+      "Large multi-disciplinary MEP firm producing high volumes of complex drawings across numerous projects that demands robust drawing coordination.",
+    timing_signals:
+      "Named ENR West's 2025 Design Firm of the Year and recently opened a Singapore office, signaling accelerated project velocity and drawing complexity.",
+    message_draft:
+      "Hi Sarah — saw Syska was just named ENR West's 2025 Design Firm of the Year, congrats on that recognition. I'm with Structured AI, we do AI drawing QA/QC for MEP firms — we've caught over 10,000 design errors across our clients. Would love to grab 15 mins at the conference to show you what we've built.",
     status: "pending",
   },
   {
     name: "James Okafor",
     title: "VP of Design",
     company: "WSP Global",
-    company_summary: "WSP Global is a world-leading engineering and professional services firm with 83,000 employees in over 50 countries, offering MEP, structural, civil, and infrastructure services at massive scale.",
+    company_summary:
+      "WSP Global is a world-leading engineering and professional services firm with 83,000 employees in over 50 countries, offering MEP, structural, civil, and infrastructure services at massive scale.",
     icp_score: 9,
-    score_reason: "Massive multi-disciplinary firm with high-volume drawing coordination across MEP, structural, and civil projects globally.",
-    timing_signals: "Recently acquired TRC Companies for $3.3B and announced a Microsoft AI partnership to drive digital transformation across AEC workflows.",
-    message_draft: "Hi James — impressive move acquiring TRC Companies, that's a massive expansion of WSP's capabilities. I'm with Structured AI, we build AI drawing QA/QC tools for large engineering firms — we've caught over 10,000 design errors across our clients. Would love to connect at the conference.",
+    score_reason:
+      "Massive multi-disciplinary firm with high-volume drawing coordination across MEP, structural, and civil projects globally.",
+    timing_signals:
+      "Recently acquired TRC Companies for $3.3B and announced a Microsoft AI partnership to drive digital transformation across AEC workflows.",
+    message_draft:
+      "Hi James — impressive move acquiring TRC Companies, that's a massive expansion of WSP's capabilities. I'm with Structured AI, we build AI drawing QA/QC tools for large engineering firms — we've caught over 10,000 design errors across our clients. Would love to connect at the conference.",
     status: "pending",
   },
   {
     name: "Rachel Patel",
     title: "Director of Innovation",
     company: "AECOM",
-    company_summary: "AECOM is a Fortune 500 global infrastructure firm with $16.1 billion in revenue and 51,000 employees providing engineering, consulting, and project management across water, energy, transportation, and buildings sectors.",
+    company_summary:
+      "AECOM is a Fortune 500 global infrastructure firm with $16.1 billion in revenue and 51,000 employees providing engineering, consulting, and project management across water, energy, transportation, and buildings sectors.",
     icp_score: 10,
-    score_reason: "Massive multi-disciplinary AEC firm producing enormous volumes of engineering drawings with a Director of Innovation who is the perfect decision maker for AI tooling.",
-    timing_signals: "AECOM recently acquired AI startup Consigli for $390M and is actively investing in AI initiatives including proprietary large language models.",
-    message_draft: "Hi Rachel — noticed AECOM's acquisition of Consigli and your focus on AI innovation, exciting times for digital transformation in AEC. I'm with Structured AI, we do AI drawing QA/QC and have caught over 10,000 design errors across clients like Syska Hennessy. Would love to grab 15 mins at the conference.",
+    score_reason:
+      "Massive multi-disciplinary AEC firm producing enormous volumes of engineering drawings with a Director of Innovation who is the perfect decision maker for AI tooling.",
+    timing_signals:
+      "AECOM recently acquired AI startup Consigli for $390M and is actively investing in AI initiatives including proprietary large language models.",
+    message_draft:
+      "Hi Rachel — noticed AECOM's acquisition of Consigli and your focus on AI innovation, exciting times for digital transformation in AEC. I'm with Structured AI, we do AI drawing QA/QC and have caught over 10,000 design errors across clients like Syska Hennessy. Would love to grab 15 mins at the conference.",
     status: "pending",
   },
 ];
@@ -129,60 +141,78 @@ export default function Home() {
   };
 
   const scoreColor = (score: number) => {
-    if (score >= 8) return "bg-green-100 text-green-800";
-    if (score >= 5) return "bg-yellow-100 text-yellow-800";
-    return "bg-red-100 text-red-800";
+    if (score >= 8) return "bg-emerald-50 text-emerald-800 border border-emerald-200";
+    if (score >= 5) return "bg-amber-50 text-amber-800 border border-amber-200";
+    return "bg-red-50 text-red-700 border border-red-200";
   };
 
   const approved = attendees.filter((a) => a.status === "approved");
 
   return (
-    <main className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
+    <div className="min-h-screen bg-[#f9f9f7]">
+      {/* Header */}
+      <header className="bg-white border-b border-gray-100 px-8 py-4">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <Image
+            src="/structuredAIlogo.png"
+            alt="Structured AI"
+            width={180}
+            height={36}
+            className="h-8 w-auto"
+          />
+          <span className="text-xs font-medium text-gray-400 tracking-widest uppercase">
             Conference ICP Prioritizer
-          </h1>
-          <p className="text-gray-500 mt-1">
-            Paste attendees from the conference app. We'll research and rank
-            them by fit.
-          </p>
+          </span>
         </div>
+      </header>
+
+      <main className="max-w-6xl mx-auto px-8 py-10">
+        {/* Hero text */}
+        {!attendees.length && !isResearching && (
+          <div className="mb-8">
+            <h1 className="text-2xl font-semibold text-gray-900 mb-1">
+              Find your highest-value attendees
+            </h1>
+            <p className="text-gray-500 text-sm">
+              Paste attendees from the conference app. We'll research each company and rank them by ICP fit.
+            </p>
+          </div>
+        )}
 
         {/* Input Section */}
         {!attendees.length && !isResearching && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Attendee List{" "}
-              <span className="text-gray-400 font-normal">
-                (Name, Title, Company — one per line)
+          <div className="bg-white rounded-2xl border border-gray-200 p-6 mb-6 shadow-sm">
+            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-3">
+              Attendee List
+              <span className="normal-case font-normal ml-2 text-gray-400">
+                — Name, Title, Company (one per line)
               </span>
             </label>
             <textarea
-              className="w-full h-40 border border-gray-200 rounded-lg p-3 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500"
-              style={{ color: "#111827", backgroundColor: "#ffffff" }}
+              className="w-full h-44 border border-gray-200 rounded-xl p-4 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#1a4a3a] resize-none"
+              style={{ color: "#111827", backgroundColor: "#fafafa" }}
               placeholder={SAMPLE_DATA}
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
-            <div className="flex gap-3 mt-4">
+            <div className="flex items-center gap-4 mt-4">
               <button
                 onClick={research}
                 disabled={!input.trim()}
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="bg-[#1a4a3a] text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-[#153d30] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               >
                 Research & Score
               </button>
               <button
                 onClick={() => setInput(SAMPLE_DATA)}
-                className="text-sm text-blue-600 hover:underline"
+                className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
               >
                 Load sample data
               </button>
-              {process.env.NODE_ENV === 'development' && (
+              {process.env.NODE_ENV === "development" && (
                 <button
                   onClick={() => setAttendees(MOCK_RESULTS)}
-                  className="text-sm text-gray-400 hover:underline"
+                  className="text-sm text-gray-300 hover:text-gray-500 transition-colors"
                 >
                   Load mock results (dev)
                 </button>
@@ -193,18 +223,26 @@ export default function Home() {
 
         {/* Progress */}
         {isResearching && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-            <p className="text-sm font-medium text-gray-700 mb-3">
-              Researching {progress.done}/{progress.total} attendees...
-            </p>
-            <div className="w-full bg-gray-100 rounded-full h-2">
+          <div className="bg-white rounded-2xl border border-gray-200 p-8 mb-6 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-sm font-medium text-gray-700">
+                Researching attendees...
+              </p>
+              <p className="text-sm text-gray-400">
+                {progress.done} / {progress.total}
+              </p>
+            </div>
+            <div className="w-full bg-gray-100 rounded-full h-1.5">
               <div
-                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                className="bg-[#1a4a3a] h-1.5 rounded-full transition-all duration-500"
                 style={{
                   width: `${(progress.done / progress.total) * 100}%`,
                 }}
               />
             </div>
+            <p className="text-xs text-gray-400 mt-3">
+              Searching company websites, news, and recent activity...
+            </p>
           </div>
         )}
 
@@ -213,8 +251,8 @@ export default function Home() {
           <div className="flex gap-6">
             {/* Main Queue */}
             <div className="flex-1 space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-800">
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-widest">
                   Ranked Queue
                 </h2>
                 <button
@@ -222,25 +260,28 @@ export default function Home() {
                     setAttendees([]);
                     setInput("");
                   }}
-                  className="text-sm text-gray-400 hover:text-gray-600"
+                  className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
                 >
-                  Start over
+                  ← Start over
                 </button>
               </div>
 
               {attendees.map((a, i) => (
                 <div
                   key={i}
-                  className={`bg-white rounded-xl shadow-sm border p-5 transition-opacity ${
+                  className={`bg-white rounded-2xl border p-6 transition-all ${
                     a.status === "skipped"
                       ? "opacity-40 border-gray-100"
-                      : "border-gray-200"
+                      : "border-gray-200 shadow-sm"
                   }`}
                 >
-                  <div className="flex items-start justify-between mb-3">
+                  {/* Card Header */}
+                  <div className="flex items-start justify-between mb-4">
                     <div>
-                      <p className="font-semibold text-gray-900">{a.name}</p>
-                      <p className="text-sm text-gray-500">
+                      <p className="font-semibold text-gray-900 text-base">
+                        {a.name}
+                      </p>
+                      <p className="text-sm text-gray-400 mt-0.5">
                         {a.title} · {a.company}
                       </p>
                     </div>
@@ -251,30 +292,41 @@ export default function Home() {
                     </span>
                   </div>
 
-                  <p className="text-sm text-gray-600 mb-2">
+                  {/* Company Summary */}
+                  <p className="text-sm text-gray-600 leading-relaxed mb-3">
                     {a.company_summary}
                   </p>
-                  <p className="text-sm text-gray-500 italic mb-1">
+
+                  {/* Score Reason */}
+                  <p className="text-xs text-gray-400 italic mb-3">
                     {a.score_reason}
                   </p>
+
+                  {/* Timing Signal */}
                   {a.timing_signals && (
-                    <p className="text-sm text-blue-600 mb-3">
-                      ⚡ {a.timing_signals}
-                    </p>
+                    <div className="flex items-start gap-2 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2 mb-4">
+                      <span className="text-sm">⚡</span>
+                      <p className="text-xs text-amber-800 leading-relaxed">
+                        {a.timing_signals}
+                      </p>
+                    </div>
                   )}
 
                   {/* Message Draft */}
-                  <div className="bg-gray-50 rounded-lg p-3 mb-4">
+                  <div className="bg-[#f4f8f6] border border-[#d0e8df] rounded-xl p-4 mb-4">
+                    <p className="text-xs font-semibold text-[#1a4a3a] uppercase tracking-widest mb-2">
+                      Draft Message
+                    </p>
                     {editingIndex === i ? (
                       <textarea
                         className="w-full text-sm bg-transparent focus:outline-none resize-none"
                         style={{ color: "#111827" }}
-                        rows={4}
+                        rows={5}
                         value={a.edited_message ?? a.message_draft}
                         onChange={(e) => updateMessage(i, e.target.value)}
                       />
                     ) : (
-                      <p className="text-sm text-gray-700">
+                      <p className="text-sm text-gray-700 leading-relaxed">
                         {a.edited_message ?? a.message_draft}
                       </p>
                     )}
@@ -282,10 +334,10 @@ export default function Home() {
 
                   {/* Actions */}
                   {a.status === "pending" && (
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-2">
                       <button
                         onClick={() => updateStatus(i, "approved")}
-                        className="bg-green-600 text-white px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-green-700"
+                        className="bg-[#1a4a3a] text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-[#153d30] transition-colors"
                       >
                         Approve
                       </button>
@@ -293,42 +345,44 @@ export default function Home() {
                         onClick={() =>
                           setEditingIndex(editingIndex === i ? null : i)
                         }
-                        className="border border-gray-300 text-gray-700 px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-gray-50"
+                        className="border border-gray-200 text-gray-600 px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
                       >
                         {editingIndex === i ? "Done" : "Edit"}
                       </button>
                       <button
                         onClick={() => updateStatus(i, "skipped")}
-                        className="text-gray-400 px-4 py-1.5 rounded-lg text-sm font-medium hover:bg-gray-50"
+                        className="text-gray-300 px-4 py-2 rounded-lg text-sm hover:text-gray-500 transition-colors"
                       >
                         Skip
                       </button>
                     </div>
                   )}
                   {a.status === "approved" && (
-                    <p className="text-sm text-green-600 font-medium">
+                    <p className="text-sm text-[#1a4a3a] font-medium">
                       ✓ Added to outreach queue
                     </p>
                   )}
                   {a.status === "skipped" && (
-                    <p className="text-sm text-gray-400">Skipped</p>
+                    <p className="text-sm text-gray-300">Skipped</p>
                   )}
                 </div>
               ))}
             </div>
 
             {/* Outreach Queue Sidebar */}
-            <div className="w-80 shrink-0">
-              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5 sticky top-8">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">
-                  Outreach Queue{" "}
-                  <span className="text-gray-400 font-normal text-sm">
-                    ({approved.length})
+            <div className="w-72 shrink-0">
+              <div className="bg-white rounded-2xl border border-gray-200 p-5 sticky top-8 shadow-sm">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-widest">
+                    Outreach Queue
+                  </h2>
+                  <span className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full">
+                    {approved.length}
                   </span>
-                </h2>
+                </div>
                 {approved.length === 0 ? (
-                  <p className="text-sm text-gray-400">
-                    Approve messages to add them here.
+                  <p className="text-xs text-gray-400 leading-relaxed">
+                    Approve messages to build your outreach queue.
                   </p>
                 ) : (
                   <div className="space-y-4">
@@ -343,7 +397,7 @@ export default function Home() {
                         <p className="text-xs text-gray-400 mb-2">
                           {a.company}
                         </p>
-                        <p className="text-xs text-gray-600 mb-2 line-clamp-3">
+                        <p className="text-xs text-gray-500 mb-2 line-clamp-3 leading-relaxed">
                           {a.edited_message ?? a.message_draft}
                         </p>
                         <button
@@ -352,7 +406,7 @@ export default function Home() {
                               a.edited_message ?? a.message_draft
                             )
                           }
-                          className="text-xs text-blue-600 hover:underline"
+                          className="text-xs text-[#1a4a3a] font-medium hover:underline"
                         >
                           Copy to conference app →
                         </button>
@@ -364,7 +418,7 @@ export default function Home() {
             </div>
           </div>
         )}
-      </div>
-    </main>
+      </main>
+    </div>
   );
 }
