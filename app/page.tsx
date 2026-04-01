@@ -18,6 +18,43 @@ interface ScoredAttendee extends Attendee {
   edited_message?: string;
 }
 
+
+const MOCK_RESULTS: ScoredAttendee[] = [
+  {
+    name: "Sarah Chen",
+    title: "Director of Engineering",
+    company: "Syska Hennessy Group",
+    company_summary: "Syska Hennessy Group is a global MEP engineering firm with 650+ professionals across 21 offices specializing in mechanical, electrical, and plumbing design. They serve complex projects from office buildings to hyperscale data centers across commercial, healthcare, and mission-critical sectors.",
+    icp_score: 9,
+    score_reason: "Large multi-disciplinary MEP firm producing high volumes of complex drawings across numerous projects that demands robust drawing coordination.",
+    timing_signals: "Named ENR West's 2025 Design Firm of the Year and recently opened a Singapore office, signaling accelerated project velocity and drawing complexity.",
+    message_draft: "Hi Sarah — saw Syska was just named ENR West's 2025 Design Firm of the Year, congrats on that recognition. I'm with Structured AI, we do AI drawing QA/QC for MEP firms — we've caught over 10,000 design errors across our clients. Would love to grab 15 mins at the conference to show you what we've built.",
+    status: "pending",
+  },
+  {
+    name: "James Okafor",
+    title: "VP of Design",
+    company: "WSP Global",
+    company_summary: "WSP Global is a world-leading engineering and professional services firm with 83,000 employees in over 50 countries, offering MEP, structural, civil, and infrastructure services at massive scale.",
+    icp_score: 9,
+    score_reason: "Massive multi-disciplinary firm with high-volume drawing coordination across MEP, structural, and civil projects globally.",
+    timing_signals: "Recently acquired TRC Companies for $3.3B and announced a Microsoft AI partnership to drive digital transformation across AEC workflows.",
+    message_draft: "Hi James — impressive move acquiring TRC Companies, that's a massive expansion of WSP's capabilities. I'm with Structured AI, we build AI drawing QA/QC tools for large engineering firms — we've caught over 10,000 design errors across our clients. Would love to connect at the conference.",
+    status: "pending",
+  },
+  {
+    name: "Rachel Patel",
+    title: "Director of Innovation",
+    company: "AECOM",
+    company_summary: "AECOM is a Fortune 500 global infrastructure firm with $16.1 billion in revenue and 51,000 employees providing engineering, consulting, and project management across water, energy, transportation, and buildings sectors.",
+    icp_score: 10,
+    score_reason: "Massive multi-disciplinary AEC firm producing enormous volumes of engineering drawings with a Director of Innovation who is the perfect decision maker for AI tooling.",
+    timing_signals: "AECOM recently acquired AI startup Consigli for $390M and is actively investing in AI initiatives including proprietary large language models.",
+    message_draft: "Hi Rachel — noticed AECOM's acquisition of Consigli and your focus on AI innovation, exciting times for digital transformation in AEC. I'm with Structured AI, we do AI drawing QA/QC and have caught over 10,000 design errors across clients like Syska Hennessy. Would love to grab 15 mins at the conference.",
+    status: "pending",
+  },
+];
+
 const SAMPLE_DATA = `Sarah Chen, Director of Engineering, Syska Hennessy Group
 James Okafor, VP of Design, WSP Global
 Maria Torres, Chief Engineer, Jacobs Engineering
@@ -142,6 +179,14 @@ export default function Home() {
               >
                 Load sample data
               </button>
+              {process.env.NODE_ENV === 'development' && (
+                <button
+                  onClick={() => setAttendees(MOCK_RESULTS)}
+                  className="text-sm text-gray-400 hover:underline"
+                >
+                  Load mock results (dev)
+                </button>
+              )}
             </div>
           </div>
         )}
