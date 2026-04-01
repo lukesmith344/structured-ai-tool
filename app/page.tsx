@@ -128,7 +128,7 @@ export default function Home() {
     setIsResearching(false);
   };
 
-  const updateStatus = (index: number, status: "approved" | "skipped") => {
+  const updateStatus = (index: number, status: "approved" | "skipped" | "pending") => {
     setAttendees((prev) =>
       prev.map((a, i) => (i === index ? { ...a, status } : a))
     );
@@ -266,107 +266,109 @@ export default function Home() {
                 </button>
               </div>
 
-              {attendees.map((a, i) => (
-                <div
-                  key={i}
-                  className={`bg-white rounded-2xl border p-6 transition-all ${
-                    a.status === "skipped"
-                      ? "opacity-40 border-gray-100"
-                      : "border-gray-200 shadow-sm"
-                  }`}
-                >
-                  {/* Card Header */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <p className="font-semibold text-gray-900 text-base">
-                        {a.name}
-                      </p>
-                      <p className="text-sm text-gray-400 mt-0.5">
-                        {a.title} · {a.company}
-                      </p>
+              {attendees.map((a, i) => {
+                if (a.status === "approved") return null;
+                return (
+                  <div
+                    key={i}
+                    className={`bg-white rounded-2xl border p-6 transition-all ${
+                      a.status === "skipped"
+                        ? "opacity-40 border-gray-100"
+                        : "border-gray-200 shadow-sm"
+                    }`}
+                  >
+                    {/* Card Header */}
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <p className="font-semibold text-gray-900 text-base">
+                          {a.name}
+                        </p>
+                        <p className="text-sm text-gray-400 mt-0.5">
+                          {a.title} · {a.company}
+                        </p>
+                      </div>
+                      <span
+                        className={`text-sm font-bold px-3 py-1 rounded-full ${scoreColor(a.icp_score)}`}
+                      >
+                        {a.icp_score}/10
+                      </span>
                     </div>
-                    <span
-                      className={`text-sm font-bold px-3 py-1 rounded-full ${scoreColor(a.icp_score)}`}
-                    >
-                      {a.icp_score}/10
-                    </span>
-                  </div>
 
-                  {/* Company Summary */}
-                  <p className="text-sm text-gray-600 leading-relaxed mb-3">
-                    {a.company_summary}
-                  </p>
-
-                  {/* Score Reason */}
-                  <p className="text-xs text-gray-400 italic mb-3">
-                    {a.score_reason}
-                  </p>
-
-                  {/* Timing Signal */}
-                  {a.timing_signals && (
-                    <div className="flex items-start gap-2 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2 mb-4">
-                      <span className="text-sm">⚡</span>
-                      <p className="text-xs text-amber-800 leading-relaxed">
-                        {a.timing_signals}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Message Draft */}
-                  <div className="bg-[#f4f8f6] border border-[#d0e8df] rounded-xl p-4 mb-4">
-                    <p className="text-xs font-semibold text-[#1a4a3a] uppercase tracking-widest mb-2">
-                      Draft Message
+                    <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                      {a.company_summary}
                     </p>
-                    {editingIndex === i ? (
-                      <textarea
-                        className="w-full text-sm bg-transparent focus:outline-none resize-none"
-                        style={{ color: "#111827" }}
-                        rows={5}
-                        value={a.edited_message ?? a.message_draft}
-                        onChange={(e) => updateMessage(i, e.target.value)}
-                      />
-                    ) : (
-                      <p className="text-sm text-gray-700 leading-relaxed">
-                        {a.edited_message ?? a.message_draft}
+                    <p className="text-xs text-gray-400 italic mb-3">
+                      {a.score_reason}
+                    </p>
+
+                    {a.timing_signals && (
+                      <div className="flex items-start gap-2 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2 mb-4">
+                        <span className="text-sm">⚡</span>
+                        <p className="text-xs text-amber-800 leading-relaxed">
+                          {a.timing_signals}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Message Draft */}
+                    <div className="bg-[#f4f8f6] border border-[#d0e8df] rounded-xl p-4 mb-4">
+                      <p className="text-xs font-semibold text-[#1a4a3a] uppercase tracking-widest mb-2">
+                        Draft Message
                       </p>
+                      {editingIndex === i ? (
+                        <textarea
+                          className="w-full text-sm bg-transparent focus:outline-none resize-none"
+                          style={{ color: "#111827" }}
+                          rows={5}
+                          value={a.edited_message ?? a.message_draft}
+                          onChange={(e) => updateMessage(i, e.target.value)}
+                        />
+                      ) : (
+                        <p className="text-sm text-gray-700 leading-relaxed">
+                          {a.edited_message ?? a.message_draft}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Actions */}
+                    {a.status === "pending" && (
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => updateStatus(i, "approved")}
+                          className="bg-[#1a4a3a] text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-[#153d30] transition-colors"
+                        >
+                          Approve
+                        </button>
+                        <button
+                          onClick={() =>
+                            setEditingIndex(editingIndex === i ? null : i)
+                          }
+                          className="border border-gray-200 text-gray-600 px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+                        >
+                          {editingIndex === i ? "Done" : "Edit"}
+                        </button>
+                        <button
+                          onClick={() => updateStatus(i, "skipped")}
+                          className="text-gray-300 px-4 py-2 rounded-lg text-sm hover:text-gray-500 transition-colors"
+                        >
+                          Skip
+                        </button>
+                      </div>
+                    )}
+                    {a.status === "skipped" && (
+                      <div className="flex items-center gap-3">
+                        <p className="text-sm text-gray-300">Skipped</p>
+                        <button
+                          onClick={() => updateStatus(i, "pending")}
+                          className="text-xs text-gray-400 hover:text-gray-600 underline"
+                        >
+                          Undo
+                        </button>
+                      </div>
                     )}
                   </div>
-
-                  {/* Actions */}
-                  {a.status === "pending" && (
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => updateStatus(i, "approved")}
-                        className="bg-[#1a4a3a] text-white px-5 py-2 rounded-lg text-sm font-medium hover:bg-[#153d30] transition-colors"
-                      >
-                        Approve
-                      </button>
-                      <button
-                        onClick={() =>
-                          setEditingIndex(editingIndex === i ? null : i)
-                        }
-                        className="border border-gray-200 text-gray-600 px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
-                      >
-                        {editingIndex === i ? "Done" : "Edit"}
-                      </button>
-                      <button
-                        onClick={() => updateStatus(i, "skipped")}
-                        className="text-gray-300 px-4 py-2 rounded-lg text-sm hover:text-gray-500 transition-colors"
-                      >
-                        Skip
-                      </button>
-                    </div>
-                  )}
-                  {a.status === "approved" && (
-                    <p className="text-sm text-[#1a4a3a] font-medium">
-                      ✓ Added to outreach queue
-                    </p>
-                  )}
-                  {a.status === "skipped" && (
-                    <p className="text-sm text-gray-300">Skipped</p>
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Outreach Queue Sidebar */}
@@ -386,32 +388,45 @@ export default function Home() {
                   </p>
                 ) : (
                   <div className="space-y-4">
-                    {approved.map((a, i) => (
-                      <div
-                        key={i}
-                        className="border-b border-gray-100 pb-4 last:border-0"
-                      >
-                        <p className="text-sm font-medium text-gray-800">
-                          {a.name}
-                        </p>
-                        <p className="text-xs text-gray-400 mb-2">
-                          {a.company}
-                        </p>
-                        <p className="text-xs text-gray-500 mb-2 line-clamp-3 leading-relaxed">
-                          {a.edited_message ?? a.message_draft}
-                        </p>
-                        <button
-                          onClick={() =>
-                            navigator.clipboard.writeText(
-                              a.edited_message ?? a.message_draft
-                            )
-                          }
-                          className="text-xs text-[#1a4a3a] font-medium hover:underline"
+                    {approved.map((a, i) => {
+                      const index = attendees.findIndex(
+                        (att) => att.name === a.name && att.company === a.company
+                      );
+                      return (
+                        <div
+                          key={i}
+                          className="border-b border-gray-100 pb-4 last:border-0"
                         >
-                          Copy to conference app →
-                        </button>
-                      </div>
-                    ))}
+                          <p className="text-sm font-medium text-gray-800">
+                            {a.name}
+                          </p>
+                          <p className="text-xs text-gray-400 mb-2">
+                            {a.company}
+                          </p>
+                          <p className="text-xs text-gray-500 mb-2 line-clamp-3 leading-relaxed">
+                            {a.edited_message ?? a.message_draft}
+                          </p>
+                          <div className="flex items-center gap-3">
+                            <button
+                              onClick={() =>
+                                navigator.clipboard.writeText(
+                                  a.edited_message ?? a.message_draft
+                                )
+                              }
+                              className="text-xs text-[#1a4a3a] font-medium hover:underline"
+                            >
+                              Copy to conference app →
+                            </button>
+                            <button
+                              onClick={() => updateStatus(index, "pending")}
+                              className="text-xs text-gray-300 hover:text-red-400 transition-colors"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </div>
