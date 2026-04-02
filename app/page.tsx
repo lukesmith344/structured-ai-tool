@@ -42,7 +42,7 @@ const MOCK_RESULTS: ScoredAttendee[] = [
     timing_signals:
       "Named ENR West's 2025 Design Firm of the Year and recently opened a Singapore office, signaling accelerated project velocity and drawing complexity.",
     message_draft:
-      "Hi Sarah — saw Syska was just named ENR West's 2025 Design Firm of the Year, congrats on that recognition. I'm with Structured AI, we do AI drawing QA/QC for MEP firms — we've caught over 10,000 design errors across our clients. Would love to grab 15 mins at the conference to show you what we've built.",
+      "Hi Sarah, saw Syska was just named ENR West's Design Firm of the Year, really impressive recognition. Curious how you're managing drawing coordination across all those data center projects given the complexity involved. Would love to grab a coffee between sessions if you have time.",
     status: "pending",
   },
   {
@@ -57,7 +57,7 @@ const MOCK_RESULTS: ScoredAttendee[] = [
     timing_signals:
       "Recently acquired TRC Companies for $3.3B and announced a Microsoft AI partnership to drive digital transformation across AEC workflows.",
     message_draft:
-      "Hi James — impressive move acquiring TRC Companies, that's a massive expansion of WSP's capabilities. I'm with Structured AI, we build AI drawing QA/QC tools for large engineering firms — we've caught over 10,000 design errors across our clients. Would love to connect at the conference.",
+      "Hi James, the TRC acquisition looks like a massive expansion of WSP's infrastructure capabilities. How are you thinking about scaling your engineering review processes across the combined organization? Would be great to connect at the conference if you're around.",
     status: "pending",
   },
   {
@@ -72,7 +72,7 @@ const MOCK_RESULTS: ScoredAttendee[] = [
     timing_signals:
       "AECOM recently acquired AI startup Consigli for $390M and is actively investing in AI initiatives including proprietary large language models.",
     message_draft:
-      "Hi Rachel — noticed AECOM's acquisition of Consigli and your focus on AI innovation, exciting times for digital transformation in AEC. I'm with Structured AI, we do AI drawing QA/QC and have caught over 10,000 design errors across clients like Syska Hennessy. Would love to grab 15 mins at the conference.",
+      "Hi Rachel, noticed AECOM has been making some big moves in AI lately, really interesting direction for the firm. Curious what that journey looks like from the inside, especially on the engineering side. Would love to grab 15 mins at the conference to swap notes.",
     status: "pending",
   },
 ];
